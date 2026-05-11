@@ -1,0 +1,16 @@
+{% extends 'dashboard/index.html.twig' %}
+
+{% block title %}Nouvelle promotion{% endblock %}
+
+{% block body %}
+<div class="modal-bg">
+    <div class="modal-card" style="max-width:720px; width:100%;">
+        <div class="modal-header">
+            <h2>Ajouter une promotion</h2>
+            <a href="{{ path('app_promotion_index') }}" class="modal-close">×</a>
+        </div>
+
+        {{ include('promotion/_form.html.twig', {form: form, button_label: 'Créer'}) }}
+    </div>
+</div>
+{% endblock %}

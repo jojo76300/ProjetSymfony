@@ -1,0 +1,96 @@
+{% extends 'dashboard/index.html.twig' %}
+
+{% block title %}Suivi & Visites consolidé{% endblock %}
+
+{% block body %}
+<div class="page-wrapper">
+    <div class="page-header">
+        <h1>Gérez le suivi et les visites de stage</h1>
+        
+        <div class="search-and-button" style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap;">
+            
+            {# 1. La barre de filtres (Promotion / Statut) fusionnée avec ta barre de recherche #}
+            <form method="get" action="{{ path('app_suivi_index') }}" style="display: flex; gap: 1rem; flex-grow: 1;">
+                
+                <div class="search-box">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" name="search" placeholder="Rechercher un étudiant..." value="{{ app.request.query.get('search') }}" />
+                </div>
+
+                <select name="promotion" onchange="this.form.submit()" style="padding: 0.5rem; border-radius: 4px; border: 1px solid #ccc;">
+                    <option value="">Toutes les promotions</option>
+                    {% for promo in promotions %}
+                        <option value="{{ promo.id }}" {% if filters.promotion == promo.id %}selected{% endif %}>
+                            Session {{ promo.session }} - {{ promo.classe }}
+                        </option>
+                    {% endfor %}
+                </select>
+                
+                {# Tu peux ajouter un filtre sur le statut si besoin #}
+            </form>
+
+        </div>
+    </div>
+
+    <div class="table-card">
+        <table class="table-list">
+            <thead>
+                <tr>
+                    <th>ÉTUDIANT</th>
+                    <th>ENTREPRISE</th>
+                    <th>ENSEIGNANTS</th>
+                    <th>STATUT DOSSIER</th>
+                    <th>ACTIONS</th>
+                </tr>
+            </thead>
+            <tbody>
+            {# On boucle sur les STAGES pour voir tout le monde (ceux avec et sans visite) #}
+            {% for s in stages %}
+                <tr>
+                    <td>
+                        <strong>{{ s.etudiant.nom }} {{ s.etudiant.prenom }}</strong><br>
+                        <small style="color: #666;">{{ s.etudiant.promotion.classe|default('') }}</small>
+                    </td>
+                    <td>{{ s.entreprise.nom|default('Non renseignée') }}</td>
+                    
+                    {# On affiche les deux profs pour avoir la vue globale #}
+                    <td>
+                        <div style="font-size: 0.9em;">
+                            <span style="color: #4f46e5;"> Suivi:</span> {{ s.profSuivi ? s.profSuivi.email : '—' }}<br>
+                            <span style="color: #10b981;"> Visite:</span> {{ s.profVisite ? s.profVisite.email : '—' }}
+                        </div>
+                    </td>
+                    
+                    <td>
+                        <span class="badge" style="padding: 0.2rem 0.5rem; border-radius: 4px; background: #e5e7eb;">
+                            {{ s.statutAttestation|default('En cours') }}
+                        </span>
+                    </td>
+                    
+                    <td class="actions" style="display: flex; gap: 0.5rem;">
+                        {# Action 1 : Gérer le stage (conventions, etc) #}
+                        <a href="{{ path('app_stage_edit', {'id': s.id}) }}" class="icon-btn edit" title="Modifier le dossier de stage" style="text-decoration: none;">
+                             Stage
+                        </a>
+                        
+                        {# Action 2 : Gérer la visite liée à ce stage #}
+                        {# Astuce : on envoie vers 'new' mais on pourrait passer l'ID du stage dans l'URL pour pré-remplir le formulaire #}
+                        <a href="{{ path('app_suivi_visites_new', {'stage_id': s.id}) }}" class="icon-btn" title="Planifier/Modifier la visite" style="text-decoration: none;">
+                             Visite
+                        </a>
+
+                        <a href="{{ path('app_stage_historique', {'id': s.id}) }}" class="icon-btn" title="Voir l'historique" style="color: #6b7280;">
+                             Historique
+                        </a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5" style="text-align: center; padding: 2rem;">Aucun dossier de suivi ou visite trouvé.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

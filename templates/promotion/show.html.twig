@@ -1,0 +1,22 @@
+{% extends 'dashboard/index.html.twig' %}
+
+{% block title %}Détail étudiant{% endblock %}
+
+{% block body %}
+<div class="page-wrapper">
+    <div class="table-card" style="max-width: 500px; margin: 2rem auto;">
+        <div style="padding: 1.5rem 2rem;">
+            <h2 style="margin-bottom: 1rem;">Détail de l'étudiant</h2>
+
+            <p><strong>Nom :</strong> {{ etudiant.nom }}</p>
+            <p><strong>Prénom :</strong> {{ etudiant.prenom }}</p>
+            <p><strong>Filière :</strong> {{ etudiant.filiere }}</p>
+            <p><strong>Promotion :</strong> {{ etudiant.annPromotion }}</p>
+
+            <div style="margin-top: 1.5rem;">
+                <a href="{{ path('app_etudiant_index') }}" class="btn-main">Retour à la liste</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

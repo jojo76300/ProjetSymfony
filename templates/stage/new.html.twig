@@ -1,0 +1,22 @@
+{% extends 'dashboard/index.html.twig' %}
+
+{% block title %}Ajouter un stage{% endblock %}
+
+{% block body %}
+<div class="modal-bg">
+    <div class="modal-card" style="max-width:720px; width:100%;">
+        <div class="modal-header">
+            <h2>Ajouter un stage</h2>
+            <a href="{{ path('app_stage_index') }}" class="modal-close">×</a>
+        </div>
+
+        {% for label, messages in app.flashes %}
+            {% for msg in messages %}
+                <div class="flash-{{ label }}">{{ msg }}</div>
+            {% endfor %}
+        {% endfor %}
+
+        {{ include('stage/_form.html.twig', {form: form, button_label: 'Enregistrer'}) }}
+    </div>
+</div>
+{% endblock %}

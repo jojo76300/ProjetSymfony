@@ -13,11 +13,11 @@ class Avoir
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'avoirs')]
+    #[ORM\ManyToOne(inversedBy: 'liensRoles')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Utilisateur $utilisateur = null;
 
-    #[ORM\ManyToOne(inversedBy: 'avoirs')]
+    #[ORM\ManyToOne(inversedBy: 'liensUtilisateurs')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Role $role = null;
 
@@ -34,7 +34,6 @@ class Avoir
     public function setUtilisateur(?Utilisateur $utilisateur): static
     {
         $this->utilisateur = $utilisateur;
-
         return $this;
     }
 
@@ -46,7 +45,6 @@ class Avoir
     public function setRole(?Role $role): static
     {
         $this->role = $role;
-
         return $this;
     }
 }

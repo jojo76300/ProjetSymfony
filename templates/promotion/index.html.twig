@@ -1,0 +1,44 @@
+{% extends 'dashboard/index.html.twig' %}
+
+{% block title %}Promotions{% endblock %}
+
+{% block body %}
+<div class="page-wrapper">
+    <div class="page-header">
+        <h1>Gérez les promotions</h1>
+        <a href="{{ path('app_promotion_new') }}" class="btn-main">+ Ajouter une promotion</a>
+    </div>
+
+    <div class="table-card">
+        <table class="table-list">
+            <thead>
+                <tr>
+                    <th>CLASSE</th>
+                    <th>SESSION</th>
+                    <th>DÉBUT STAGE</th>
+                    <th>FIN STAGE</th>
+                    <th>ACTIONS</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for p in promotions %}
+                <tr>
+                    <td>{{ p.classe }}</td>
+                    <td>{{ p.session }}</td>
+                    <td>{{ p.dateDebutStageDefaut|date('d/m/Y') }}</td>
+                    <td>{{ p.dateFinStageDefaut|date('d/m/Y') }}</td>
+                    <td class="actions">
+                        <a href="{{ path('app_promotion_edit', {'id': p.id}) }}" class="icon-btn edit">✏️</a>
+                        {{ include('promotion/_delete_form.html.twig', {promotion: p}) }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">Aucune promotion enregistrée.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

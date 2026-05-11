@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        {% block stylesheets %}
+        <style>
+        .modal-bg {
+            min-height: 100vh;
+            background: #5f6470;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+        
+        .modal-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 2.5rem 2.75rem;
+            width: 420px;
+            box-shadow: 0 18px 40px rgba(0,0,0,0.25);
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .modal-header h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin: 0;
+        }
+        
+        .modal-close {
+            font-size: 1.4rem;
+            text-decoration: none;
+            color: #4b4f57;
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.35rem;
+        }
+        
+        .input-text,
+        .select-field {
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid #d0d4dd;
+            padding: 0.55rem 0.75rem;
+            font-size: 0.95rem;
+        }
+        
+        .input-text:focus,
+        .select-field:focus {
+            outline: none;
+            border-color: #2b3b58;
+            box-shadow: 0 0 0 2px rgba(43,59,88,0.15);
+        }
+        
+        .btn-primary-full {
+            margin-top: 1.2rem;
+            width: 100%;
+            border: none;
+            border-radius: 8px;
+            background: #151b28;
+            color: #ffffff;
+            font-weight: 600;
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+        }
+
+        .page-wrapper {
+            background: linear-gradient(90deg,#b2ebff,#c7f1ff);
+            padding: 2rem 3rem;
+            min-height: 100vh;
+            }
+
+            .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            }
+
+            .page-header h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            }
+
+            .search-and-button {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            }
+
+            .search-box {
+            background: #ffffff;
+            border-radius: 999px;
+            padding: 0.4rem 1rem;
+            display: flex;
+            align-items: center;
+            min-width: 260px;
+            }
+
+            .search-box input {
+            border: none;
+            outline: none;
+            margin-left: 0.5rem;
+            font-size: 0.9rem;
+            }
+
+            .btn-main {
+            background: #151b28;
+            color: #fff;
+            text-decoration: none;
+            padding: 0.6rem 1.4rem;
+            border-radius: 999px;
+            font-weight: 600;
+            }
+
+            .table-card {
+            margin-top: 1rem;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+            }
+
+            .table-list {
+            width: 100%;
+            border-collapse: collapse;
+            }
+
+            .table-list th,
+            .table-list td {
+            padding: 0.9rem 1.2rem;
+            font-size: 0.9rem;
+            }
+
+            .table-list thead {
+            background: #f7f8fb;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            color: #6b7280;
+            }
+
+            .table-list tbody tr:nth-child(every) {}
+
+            .badge-pill {
+            display: inline-block;
+            padding: 0.25rem 0.9rem;
+            border-radius: 999px;
+            background: #ffd8f4;
+            color: #a30075;
+            font-size: 0.8rem;
+            font-weight: 600;
+            }
+
+            .actions {
+            display: flex;
+            gap: 0.5rem;
+            }
+
+            .icon-btn {
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 1rem;
+            }
+
+            .icon-btn.edit { color: #2563eb; }
+            .icon-btn.delete { color: #dc2626; }
+
+        
+        </style>
+
+        {% endblock %}
+
+        {% block javascripts %}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
+        {% endblock %}
+    </head>
+    <body>
+        {% block body %}{% endblock %}
+    </body>
+</html>

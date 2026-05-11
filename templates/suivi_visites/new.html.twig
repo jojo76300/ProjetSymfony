@@ -1,0 +1,19 @@
+{% extends 'dashboard/index.html.twig' %}
+
+{% block title %}Planifier une visite{% endblock %}
+
+{% block body %}
+<div class="modal-bg">
+    <div class="modal-card" style="max-width:720px; width:100%;">
+        <div class="modal-header">
+            <h2>Planifier une visite</h2>
+            <a href="{{ path('app_suivi_index') }}" class="modal-close">×</a>
+        </div>
+
+        {{ include('suivi_visites/_form.html.twig', {
+            form: form,
+            button_label: 'Planifier'
+        }) }}
+    </div>
+</div>
+{% endblock %}

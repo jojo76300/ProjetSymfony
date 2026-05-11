@@ -22,8 +22,15 @@ class Etudiant
     #[ORM\Column(length: 100)]
     private ?string $filiere = null;
 
-    #[ORM\Column(length: 30)]
-    private ?string $annPromotion = null;
+
+    #[ORM\Column(name: 'is_archived', type: 'boolean')]
+    private bool $isArchived = false;
+
+    #[ORM\ManyToOne(inversedBy: 'etudiants')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Promotion $promotion = null;
+
+
 
     public function getId(): ?int
     {
@@ -38,7 +45,6 @@ class Etudiant
     public function setNom(string $nom): static
     {
         $this->nom = $nom;
-
         return $this;
     }
 
@@ -50,7 +56,6 @@ class Etudiant
     public function setPrenom(string $prenom): static
     {
         $this->prenom = $prenom;
-
         return $this;
     }
 
@@ -62,19 +67,34 @@ class Etudiant
     public function setFiliere(string $filiere): static
     {
         $this->filiere = $filiere;
-
         return $this;
     }
 
-    public function getAnnPromotion(): ?string
+    public function isArchived(): bool
     {
-        return $this->annPromotion;
+        return $this->isArchived;
     }
 
-    public function setAnnPromotion(string $annPromotion): static
+    public function setIsArchived(bool $isArchived): static
     {
-        $this->annPromotion = $annPromotion;
-
+        $this->isArchived = $isArchived;
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return trim($this->prenom.' '.$this->nom);
+    }
+
+    public function getPromotion(): ?Promotion
+    {
+        return $this->promotion;
+    }
+    
+    public function setPromotion(?Promotion $promotion): static
+    {
+        $this->promotion = $promotion;
+        return $this;
+    }
+
 }

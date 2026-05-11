@@ -1,0 +1,81 @@
+{% extends 'dashboard/index.html.twig' %}
+
+{% block title %}Stages{% endblock %}
+
+{% block body %}
+<div class="page-wrapper">
+    <div class="page-header">
+        <h1>Gérez les stages</h1>
+        <div class="search-and-button">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" placeholder="Rechercher un stage..." />
+            </div>
+            <a href="{{ path('app_stage_new') }}" class="btn-main">
+                + Ajouter un stage
+            </a>
+        </div>
+    </div>
+
+    <div class="table-card">
+        <table class="table-list">
+            <thead>
+                <tr>
+                    <th>ÉTUDIANT</th>
+                    <th>ENTREPRISE</th>
+                    <th>PROF. SUIVI</th>
+                    <th>PROF. VISITE</th>
+                    <th>DATES</th>
+                    <th>DURÉE</th>
+                    <th>ATTESTATION</th>
+                    <th>ACTIONS</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for s in stages %}
+                <tr>
+                    <td>{{ s.etudiant.nom|upper }} {{ s.etudiant.prenom }}</td>
+                    <td>{{ s.entreprise.nom }}</td>
+                    <td>
+                        {% if s.profSuivi %}
+                            {{ s.profSuivi.prenom }} {{ s.profSuivi.nom|upper }}
+                        {% else %}
+                            —
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if s.profVisite %}
+                            {{ s.profVisite.prenom }} {{ s.profVisite.nom|upper }}
+                        {% else %}
+                            —
+                        {% endif %}
+                    </td>
+                    <td>{{ s.dateDebut|date('d/m/Y') }} – {{ s.dateFin|date('d/m/Y') }}</td>
+                    <td>{{ s.duree }} sem.</td>
+                    <td>
+                        <span class="badge-pill">
+                            {{ s.statutAttestation }}
+                        </span>
+                    </td>
+                    <td class="actions">
+                        {# SÉCURITÉ : On affiche le bouton Modifier SEULEMENT si l'utilisateur y a droit #}
+                        {% if is_granted('STAGE_EDIT', s) %}
+                            <a href="{{ path('app_stage_edit', {'id': s.id}) }}" class="icon-btn edit" title="Modifier">✏️</a>
+                        {% endif %}
+
+                        {# SÉCURITÉ : On affiche le bouton Supprimer SEULEMENT si l'utilisateur y a droit (Admin) #}
+                        {% if is_granted('STAGE_DELETE', s) %}
+                            {{ include('stage/_delete_form.html.twig', {stage: s}) }}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="8" style="text-align: center;">Aucun stage enregistré.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

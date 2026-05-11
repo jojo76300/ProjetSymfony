@@ -1,0 +1,75 @@
+{% extends 'dashboard/index.html.twig' %}
+
+{% block title %}Exporter les données{% endblock %}
+
+{% block body %}
+<div class="container-fluid p-4" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); min-height: 100vh;">
+    
+    <h2 class="mb-4 text-dark">Exporter les données</h2>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        
+        {# Carte Étudiants #}
+        <div class="col">
+            <div class="card h-100 border-0 shadow-sm rounded-4 p-3">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-primary bg-opacity-10 p-2 rounded me-3 text-primary">
+                            <i class="fas fa-file-alt fa-lg"></i>
+                        </div>
+                        <h5 class="card-title mb-0 fw-bold">Liste des étudiants</h5>
+                    </div>
+                    <p class="card-text text-muted small mb-4">
+                        Exporter la liste complète des étudiants avec leurs informations.
+                    </p>
+                    <a href="{{ path('app_export_etudiants') }}" class="btn btn-primary w-100 rounded-3">
+                        <i class="fas fa-download me-2"></i> Exporter (CSV)
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        {# Carte Entreprises #}
+        <div class="col">
+            <div class="card h-100 border-0 shadow-sm rounded-4 p-3">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-success bg-opacity-10 p-2 rounded me-3 text-success">
+                            <i class="fas fa-table fa-lg"></i>
+                        </div>
+                        <h5 class="card-title mb-0 fw-bold">Liste des entreprises</h5>
+                    </div>
+                    <p class="card-text text-muted small mb-4">
+                        Exporter les entreprises partenaires et leurs coordonnées.
+                    </p>
+                    <a href="{{ path('app_export_entreprises') }}" class="btn btn-success w-100 rounded-3">
+                        <i class="fas fa-download me-2"></i> Exporter (CSV)
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        {# Carte Stages #}
+        <div class="col">
+            <div class="card h-100 border-0 shadow-sm rounded-4 p-3">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-3">
+                        <div class="bg-purple bg-opacity-10 p-2 rounded me-3" style="color: #8a2be2;">
+                            <i class="fas fa-file-excel fa-lg"></i>
+                        </div>
+                        <h5 class="card-title mb-0 fw-bold">Rapport des stages</h5>
+                    </div>
+                    <p class="card-text text-muted small mb-4">
+                        Exporter un rapport complet de tous les stages en cours.
+                    </p>
+                    {# Note: Sur ta maquette c'est écrit "Excel", mais le code génère un CSV compatible Excel #}
+                    <a href="{{ path('app_export_stages') }}" class="btn text-white w-100 rounded-3" style="background-color: #9b59b6;">
+                        <i class="fas fa-download me-2"></i> Exporter (Excel/CSV)
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}

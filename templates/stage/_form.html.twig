@@ -1,0 +1,91 @@
+{{ form_start(form) }}
+    <div style="display:flex; gap:1rem;">
+        <div class="form-group" style="flex:1;">
+            {{ form_label(form.etudiant, 'Étudiant (*)') }}
+            {{ form_widget(form.etudiant, {'attr': {'class': 'select-field', 'required': 'required', 'id': 'stage_etudiant'}}) }}
+            {{ form_errors(form.etudiant) }}
+        </div>
+        <div class="form-group" style="flex:1;">
+            {{ form_label(form.entreprise) }}
+            {{ form_widget(form.entreprise, {'attr': {'class': 'select-field'}}) }}
+            {{ form_errors(form.entreprise) }}
+        </div>
+    </div>
+
+    <div style="display:flex; gap:1rem;">
+        <div class="form-group" style="flex:1;">
+            {{ form_label(form.profSuivi) }}
+            {{ form_widget(form.profSuivi, {'attr': {'class': 'select-field'}}) }}
+            {{ form_errors(form.profSuivi) }}
+        </div>
+        <div class="form-group" style="flex:1;">
+            {{ form_label(form.profVisite) }}
+            {{ form_widget(form.profVisite, {'attr': {'class': 'select-field'}}) }}
+            {{ form_errors(form.profVisite) }}
+        </div>
+    </div>
+
+    <div style="display:flex; gap:1rem;">
+        <div class="form-group" style="flex:1;">
+            {{ form_label(form.dateDebut, 'Date de début (*)') }}
+            {{ form_widget(form.dateDebut, {'attr': {'class': 'input-text', 'required': 'required', 'id': 'stage_dateDebut'}}) }}
+            {{ form_errors(form.dateDebut) }}
+        </div>
+        <div class="form-group" style="flex:1;">
+            {{ form_label(form.dateFin, 'Date de fin (*)') }}
+            {{ form_widget(form.dateFin, {'attr': {'class': 'input-text', 'required': 'required', 'id': 'stage_dateFin'}}) }}
+            {{ form_errors(form.dateFin) }}
+        </div>
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.statutAttestation) }}
+        {{ form_widget(form.statutAttestation, {'attr': {'class': 'select-field'}}) }}
+        {{ form_errors(form.statutAttestation) }}
+    </div>
+
+    <div class="form-group">
+        {{ form_label(form.remarques) }}
+        {{ form_widget(form.remarques, {'attr': {'class': 'input-text', 'style': 'height:100px;'}}) }}
+        {{ form_errors(form.remarques) }}
+    </div>
+
+    <button class="btn-primary-full">
+        {{ button_label|default('Enregistrer') }}
+    </button>
+{{ form_end(form) }}
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const etudiantSelect = document.getElementById('stage_etudiant');
+    const dateDebutInput = document.getElementById('stage_dateDebut');
+    const dateFinInput = document.getElementById('stage_dateFin');
+
+    function remplirDatesPromotion() {
+        const selectedOption = etudiantSelect.options[etudiantSelect.selectedIndex];
+
+        if (!selectedOption) {
+            return;
+        }
+
+        const dateDebut = selectedOption.getAttribute('data-date-debut');
+        const dateFin = selectedOption.getAttribute('data-date-fin');
+
+        if (dateDebut) {
+            dateDebutInput.value = dateDebut;
+        }
+
+        if (dateFin) {
+            dateFinInput.value = dateFin;
+        }
+    }
+
+    if (etudiantSelect) {
+        etudiantSelect.addEventListener('change', remplirDatesPromotion);
+
+        if (etudiantSelect.value) {
+            remplirDatesPromotion();
+        }
+    }
+});
+</script>

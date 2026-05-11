@@ -1,0 +1,139 @@
+{% extends 'dashboard/index.html.twig' %}
+
+{% block title %}Tableau de bord - Suivi des stages{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+    .dashboard-header { margin-bottom: 2rem; }
+    .dashboard-header h1 { font-size: 2rem; color: #111827; margin-bottom: 0.5rem; }
+    .dashboard-header p { color: #4b5563; font-size: 1.1rem; }
+    
+    /* Grille des KPIs */
+    .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 2.5rem; }
+    .kpi-card { background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+    .kpi-icon { width: 40px; height: 40px; border-radius: 8px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 1.2rem; }
+    .icon-blue { background: #eff6ff; color: #3b82f6; }
+    .icon-green { background: #ecfdf5; color: #10b981; }
+    .icon-purple { background: #fdf4ff; color: #8b5cf6; }
+    .icon-orange { background: #fff7ed; color: #f97316; }
+    
+    .kpi-title { color: #6b7280; font-size: 0.9rem; font-weight: 500; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .kpi-value { font-size: 2.2rem; font-weight: 700; color: #111827; line-height: 1; margin-bottom: 0.5rem; }
+    .kpi-subtitle { font-size: 0.85rem; color: #9ca3af; }
+
+    /* Alertes */
+    .alerts-section { background: white; border-radius: 12px; padding: 1.5rem; margin-bottom: 2.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+    .alert-title { display: flex; align-items: center; gap: 0.5rem; color: #b45309; font-weight: 600; margin-bottom: 1rem; font-size: 1.1rem; }
+    .alert-item { padding: 1rem; border-radius: 8px; margin-bottom: 0.5rem; display: flex; align-items: center; border-left: 4px solid; }
+    .alert-danger { background: #fef2f2; color: #991b1b; border-left-color: #ef4444; }
+    .alert-warning { background: #fffbeb; color: #9a3412; border-left-color: #f59e0b; }
+    .alert-info { background: #eff6ff; color: #1e40af; border-left-color: #3b82f6; }
+
+    /* Section inférieure : Graphiques & Tableau */
+    .bottom-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; }
+    .card { background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); }
+    .card-title { font-size: 1.1rem; font-weight: 600; color: #111827; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem; }
+    
+    /* Style du tableau */
+    .visits-table { width: 100%; border-collapse: collapse; }
+    .visits-table th { text-align: left; padding: 0.75rem 1rem; color: #6b7280; font-size: 0.85rem; font-weight: 500; border-bottom: 1px solid #e5e7eb; text-transform: uppercase; }
+    .visits-table td { padding: 1rem; border-bottom: 1px solid #f3f4f6; color: #1f2937; }
+    .status-badge { display: inline-block; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.85rem; font-weight: 500; }
+    .status-planifie { background: #dcfce7; color: #065f46; }
+    .status-aplanifier { background: #ffedd5; color: #9a3412; }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="page-wrapper" style="padding: 2rem; background-color: #dbeafe; min-height: 100vh;">
+    
+    <div class="dashboard-header">
+        <h1>Tableau de bord</h1>
+        <p>Vue d'ensemble de la gestion des stages BTS SIO</p>
+    </div>
+
+    <!-- LIGNE 1 : KPIs -->
+    <div class="kpi-grid">
+        <div class="kpi-card">
+            <div class="kpi-icon icon-blue">🎓</div>
+            <div class="kpi-title">Étudiants</div>
+            <div class="kpi-value">{{ stats.etudiants_total }}</div>
+            <div class="kpi-subtitle">{{ stats.etudiants_slam }} SLAM · {{ stats.etudiants_sisr }} SISR</div>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-icon icon-green">💼</div>
+            <div class="kpi-title">Stages en cours</div>
+            <div class="kpi-value">{{ stats.stages_en_cours }}</div>
+            <div class="kpi-subtitle">Sur {{ stats.etudiants_total }} étudiants</div>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-icon icon-purple">🏢</div>
+            <div class="kpi-title">Entreprises</div>
+            <div class="kpi-value">{{ stats.entreprises }}</div>
+            <div class="kpi-subtitle">Partenaires actifs</div>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-icon icon-orange">📅</div>
+            <div class="kpi-title">Visites à planifier</div>
+            <div class="kpi-value">{{ stats.visites_a_planifier }}</div>
+            <div class="kpi-subtitle">Actions requises</div>
+        </div>
+    </div>
+
+    <!-- LIGNE 2 : Alertes -->
+    <div class="alerts-section">
+        <div class="alert-title">⚠️ Alertes importantes</div>
+        
+        {% for alerte in alertes %}
+            <div class="alert-item alert-{{ alerte.type }}">
+                {{ alerte.message }}
+            </div>
+        {% else %}
+            <div class="alert-item alert-info">Aucune alerte pour le moment.</div>
+        {% endfor %}
+    </div>
+
+    <!-- LIGNE 3 : Prochaines visites -->
+    <div class="card">
+        <div class="card-title">
+        🕒 Prochaines visites 
+        {% if is_granted('ROLE_ADMIN') %}
+            <span style="font-size: 0.8rem; color: #6b7280; font-weight: normal;">(Toutes)</span>
+        {% else %}
+            <span style="font-size: 0.8rem; color: #6b7280; font-weight: normal;">(Mes visites)</span>
+        {% endif %}
+    </div>
+        <table class="visits-table">
+            <thead>
+                <tr>
+                    <th>Étudiant</th>
+                    <th>Entreprise</th>
+                    <th>Date</th>
+                    <th>Statut</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for visite in prochaines_visites %}
+                    <tr>
+                        <td>{{ visite.stage.etudiant.nom }} {{ visite.stage.etudiant.prenom }}</td>
+                        <td>{{ visite.stage.entreprise.nom|default('N/A') }}</td>
+                        <td>{{ visite.dateVisite ? visite.dateVisite|date('d/m/Y') : 'Non définie' }}</td>
+                        <td>
+                            <span class="status-badge status-planifie">✓ Planifiée</span>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4" style="text-align: center; color: #6b7280;">Aucune visite planifiée.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+{% endblock %}

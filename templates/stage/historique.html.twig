@@ -1,0 +1,52 @@
+{% extends 'dashboard/index.html.twig' %}
+
+{% block title %}Historique du stage{% endblock %}
+
+{% block body %}
+<div class="page-wrapper">
+    <div class="page-header" style="margin-bottom: 2rem;">
+        <div>
+            <a href="{{ path('app_suivi_index') }}" style="color: #6b7280; text-decoration: none; font-size: 0.9rem;">← Retour au suivi</a>
+            <h1 style="margin-top: 0.5rem;">Historique du dossier</h1>
+            <p style="color: #4b5563;">
+                Étudiant : <strong>{{ stage.etudiant.nom }} {{ stage.etudiant.prenom }}</strong><br>
+                Entreprise : {{ stage.entreprise.nom|default('Non renseignée') }}
+            </p>
+        </div>
+    </div>
+
+    <div class="table-card" style="padding: 2rem;">
+        
+        {% if stage.historiques is empty %}
+            <p style="text-align: center; color: #6b7280; padding: 2rem 0;">Aucun historique enregistré pour ce dossier.</p>
+        {% else %}
+            <div style="border-left: 2px solid #e5e7eb; margin-left: 1rem; padding-left: 1.5rem;">
+                
+                {# On boucle sur l'historique (idéalement trié du plus récent au plus ancien) #}
+                {# orderBy est un filtre Twig pratique si tu ne l'as pas trié dans le contrôleur #}
+                {% for log in stage.historiques|sort((a, b) => b.dateCreation <=> a.dateCreation) %}
+                    <div style="position: relative; margin-bottom: 1.5rem;">
+                        
+                        {# Le petit point sur la ligne de temps #}
+                        <div style="position: absolute; left: -29px; top: 5px; width: 12px; height: 12px; border-radius: 50%; background: #2563eb; border: 3px solid #fff;"></div>
+                        
+                        <div style="font-size: 0.85rem; color: #6b7280; margin-bottom: 0.2rem;">
+                            {{ log.dateCreation|date('d/m/Y à H:i') }} 
+                            {% if log.auteur %}
+                                par <strong>{{ log.auteur.email }}</strong>
+                            {% endif %}
+                        </div>
+                        
+                        <div style="background: #f9fafb; padding: 0.8rem 1rem; border-radius: 6px; color: #1f2937; border: 1px solid #e5e7eb;">
+                            {{ log.action }}
+                        </div>
+                        
+                    </div>
+                {% endfor %}
+
+            </div>
+        {% endif %}
+        
+    </div>
+</div>
+{% endblock %}

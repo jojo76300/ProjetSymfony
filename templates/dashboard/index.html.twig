@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Suivi des stages{% endblock %}</title>
+
+    {% block stylesheets %}
+    <style>
+        .app-shell {
+            display: flex;
+            min-height: 100vh;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        .sidebar {
+            width: 230px;
+            background: #ffffff;
+            border-right: 1px solid #e5e7eb;
+            padding: 1.5rem 1rem;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .logo-box {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            background: #e0f2fe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .app-title {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        .sidebar-link {
+            display: block;
+            padding: 0.55rem 0.75rem;
+            border-radius: 8px;
+            color: #374151;
+            text-decoration: none;
+            font-size: 0.95rem;
+        }
+
+        .sidebar-link.active,
+        .sidebar-link:hover {
+            background: #e5f2ff;
+            color: #111827;
+        }
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: #f3f4f6;
+        }
+
+        .topbar {
+            height: 56px;
+            padding: 0 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 1rem;
+            background: #ffffff;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .logout-link {
+            color: #2563eb;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .page-content {
+            flex: 1;
+        }
+
+        /* --- styles pages & tableaux --- */
+
+        .modal-bg {
+            min-height: 100vh;
+            background: #5f6470;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .modal-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 2.5rem 2.75rem;
+            width: 420px;
+            box-shadow: 0 18px 40px rgba(0,0,0,0.25);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-header h2 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .modal-close {
+            font-size: 1.4rem;
+            text-decoration: none;
+            color: #4b4f57;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.35rem;
+        }
+
+        .input-text,
+        .select-field {
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid #d0d4dd;
+            padding: 0.55rem 0.75rem;
+            font-size: 0.95rem;
+        }
+
+        .input-text:focus,
+        .select-field:focus {
+            outline: none;
+            border-color: #2b3b58;
+            box-shadow: 0 0 0 2px rgba(43,59,88,0.15);
+        }
+
+        .btn-primary-full {
+            margin-top: 1.2rem;
+            width: 100%;
+            border: none;
+            border-radius: 8px;
+            background: #151b28;
+            color: #ffffff;
+            font-weight: 600;
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+        }
+
+        .page-wrapper {
+            background: linear-gradient(90deg,#b2ebff,#c7f1ff);
+            padding: 2rem 3rem;
+            min-height: calc(100vh - 56px);
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .page-header h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        .search-and-button {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .search-box {
+            background: #ffffff;
+            border-radius: 999px;
+            padding: 0.4rem 1rem;
+            display: flex;
+            align-items: center;
+            min-width: 260px;
+        }
+
+        .search-box input {
+            border: none;
+            outline: none;
+            margin-left: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .btn-main {
+            background: #151b28;
+            color: #fff;
+            text-decoration: none;
+            padding: 0.6rem 1.4rem;
+            border-radius: 999px;
+            font-weight: 600;
+        }
+
+        .table-card {
+            margin-top: 1rem;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .table-list {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table-list th,
+        .table-list td {
+            padding: 0.9rem 1.2rem;
+            font-size: 0.9rem;
+        }
+
+        .table-list thead {
+            background: #f7f8fb;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+
+        .badge-pill {
+            display: inline-block;
+            padding: 0.25rem 0.9rem;
+            border-radius: 999px;
+            background: #ffd8f4;
+            color: #a30075;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .badge-slam { background:#e0e7ff; color:#1d4ed8; }
+        .badge-sisr { background:#d1fae5; color:#047857; }
+
+        .actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .icon-btn {
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .icon-btn.edit { color: #2563eb; }
+        .icon-btn.delete { color: #dc2626; }
+
+        .sortable {
+            color: inherit;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .sortable:hover {
+            text-decoration: underline;
+        }
+    </style>
+    {% endblock %}
+</head>
+<body>
+<div class="app-shell">
+    <aside class="sidebar">
+        <a href="{{ path('app_home') }}" class="sidebar-header" style="text-decoration: none; color: inherit; display: flex; align-items: center; cursor: pointer;">
+            <div class="logo-box">📘</div>
+            <div class="app-title">Suivi des stages</div>
+        </a>
+
+        <nav class="sidebar-nav">
+            <a href="{{ path('app_etudiant_index') }}"
+               class="sidebar-link {% if app.request.attributes.get('_route') starts with 'app_etudiant_' %}active{% endif %}">
+                <span>Étudiants</span>
+            </a>
+            <a href="{{ path('app_promotion_index') }}"
+            class="sidebar-link {% if app.request.attributes.get('_route') starts with 'app_promotion_' %}active{% endif %}">
+                <span>Promotions</span>
+            </a>            
+
+            <a href="{{ path('app_entreprise_index') }}"
+               class="sidebar-link {% if app.request.attributes.get('_route') starts with 'app_entreprise_' %}active{% endif %}">
+                <span>Entreprises</span>
+            </a>
+
+            <a href="{{ path('app_stage_index') }}"
+            class="sidebar-link {% if app.request.attributes.get('_route') starts with 'app_stage_' %}active{% endif %}">
+                <span>Stages</span>
+            </a>
+
+
+            <a href="{{ path('app_suivi_index') }}" 
+                class="sidebar-link {% if app.request.attributes.get('_route') starts with 'app_suivi_index' %}active{% endif %}">
+                <span>Suivi & Visites</span>
+            </a>
+
+            <a href="{{ path('app_exports_index') }}" 
+                class="sidebar-link {% if app.request.attributes.get('_route') starts with 'app_exports_index' %}active{% endif %}">
+                <span>Exports</span></a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <header class="topbar">
+            <div class="user-profile" style="display: flex; align-items: center; gap: 1rem;">
+    
+                {# Vérification du rôle de l'utilisateur connecté #}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <span class="user-name">Administrateur</span>
+                {% elseif is_granted('ROLE_USER') %}
+                    {# Affichage personnalisé pour les professeurs #}
+                    <span class="user-name">Bonjour M. {{ app.user.nom|default(app.user.email) }}</span>
+                {% endif %}
+
+                <a href="{{ path('app_logout') }}" class="logout-btn" style="color: #4f46e5; text-decoration: none;">Déconnexion</a>
+                
+            </div>
+        </header>
+
+        <section class="page-content">
+            {% block body %}{% endblock %}
+        </section>
+    </main>
+</div>
+</body>
+</html>

@@ -1,0 +1,58 @@
+{% extends 'dashboard/index.html.twig' %}
+
+{% block title %}Entreprises{% endblock %}
+
+{% block body %}
+<div class="page-wrapper">
+    <div class="page-header">
+        <h1>Gérez les entreprises partenaires</h1>
+        <div class="search-and-button">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" placeholder="Rechercher une entreprise..." />
+            </div>
+            <a href="{{ path('app_entreprise_new') }}" class="btn-main">
+                + Ajouter une entreprise
+            </a>
+        </div>
+    </div>
+
+    <div class="table-card">
+        <table class="table-list">
+            <thead>
+                <tr>
+                    <th>NOM</th>
+                    <th>VILLE</th>
+                    <th>SECTEUR</th>
+                    <th>CONTACT</th>
+                    <th>EMAIL</th>
+                    <th>ACTIONS</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for entreprise in entreprises %}
+                <tr>
+                    <td>{{ entreprise.nom }}</td>
+                    <td>{{ entreprise.ville }}</td>
+                    <td>
+                        <span class="badge-pill">
+                            {{ entreprise.secteur }}
+                        </span>
+                    </td>
+                    <td>{{ entreprise.contact }}</td>
+                    <td>{{ entreprise.email }}</td>
+                    <td class="actions">
+                        <a href="{{ path('app_entreprise_edit', {'id': entreprise.id}) }}" class="icon-btn edit">✏️</a>
+                        {{ include('entreprise/_delete_form.html.twig') }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6">Aucune entreprise trouvée.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

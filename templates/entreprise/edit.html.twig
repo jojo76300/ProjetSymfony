@@ -1,0 +1,45 @@
+{% extends 'dashboard/index.html.twig' %}
+
+{% block title %}Modifier une entreprise{% endblock %}
+
+{% block body %}
+<div class="modal-bg">
+    <div class="modal-card">
+        <div class="modal-header">
+            <h2>Modifier une entreprise</h2>
+            <a href="{{ path('app_entreprise_index') }}" class="modal-close">×</a>
+        </div>
+
+        {{ form_start(form) }}
+            <div class="form-group">
+                {{ form_label(form.nom, 'Nom de l\'entreprise') }}
+                {{ form_widget(form.nom, {'attr': {'class': 'input-text'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.ville, 'Ville') }}
+                {{ form_widget(form.ville, {'attr': {'class': 'input-text'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.secteur, 'Secteur d\'activité') }}
+                {{ form_widget(form.secteur, {'attr': {'class': 'input-text'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.contact, 'Nom du contact') }}
+                {{ form_widget(form.contact, {'attr': {'class': 'input-text'}}) }}
+            </div>
+
+            <div class="form-group">
+                {{ form_label(form.email, 'Email de contact') }}
+                {{ form_widget(form.email, {'attr': {'class': 'input-text'}}) }}
+            </div>
+
+            <button type="submit" class="btn-primary-full">
+                Modifier
+            </button>
+        {{ form_end(form) }}
+    </div>
+</div>
+{% endblock %}

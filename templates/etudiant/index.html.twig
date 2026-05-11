@@ -1,0 +1,72 @@
+{% extends 'dashboard/index.html.twig' %}
+
+{% block title %}Étudiants{% endblock %}
+
+{% block body %}
+<div class="page-wrapper">
+    <div class="page-header">
+        <h1>Gérez les étudiants de la formation BTS SIO</h1>
+
+        <div class="search-and-button">
+            <div class="search-box">
+                <span class="search-icon">🔍</span>
+                <input type="text" placeholder="Rechercher un étudiant..." />
+            </div>
+            <a href="{{ path('app_etudiant_new') }}" class="btn-main">
+                + Ajouter un étudiant
+            </a>
+        </div>
+        
+    </div>
+
+    <div style="display:flex; gap:1rem; font-size:0.9rem;">
+            <div>Total : <strong>{{ totaletudiant }}</strong></div>
+            <div>SLAM : <strong>{{ NbrSlAM }}</strong></div>
+            <div>SISR : <strong>{{ NbrSISR }}</strong></div>
+    </div>
+
+    <div class="table-card">
+        <table class="table-list">
+            <thead>
+                <tr>
+                    {% set nextSort = sort == 'ASC' ? 'DESC' : 'ASC' %}
+                    <th>
+                        <a href="{{ path('app_etudiant_index', {sort: nextSort}) }}" class="sortable">
+                            NOM
+                            {% if sort == 'ASC' %}▲{% else %}▼{% endif %}
+                        </a>
+                    </th>
+                    <th>PRÉNOM</th>
+                    <th>FILIÈRE</th>
+                    <th>CLASSE</th>
+                    <th>PROMOTION</th>
+                    <th>ACTIONS</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for etudiant in etudiants %}
+                <tr>
+                    <td>{{ etudiant.nom }}</td>
+                    <td>{{ etudiant.prenom }}</td>
+                    <td>
+                        <span class="badge-pill {% if etudiant.filiere == 'SLAM' %}badge-slam{% else %}badge-sisr{% endif %}">
+                            {{ etudiant.filiere }}
+                        </span>
+                    </td>
+                    <td>{{ etudiant.promotion.classe }}</td>
+                    <td>{{ etudiant.promotion.session }}</td>
+                    <td class="actions">
+                        <a href="{{ path('app_etudiant_edit', {'id': etudiant.id}) }}" class="icon-btn edit">✏️</a>
+                        {{ include('etudiant/_delete_form.html.twig', {etudiant: etudiant}) }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">Aucun étudiant trouvé.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
