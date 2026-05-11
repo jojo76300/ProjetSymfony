@@ -1,0 +1,13 @@
+ID Test,Use case,User Story,Préconditions,Données d’entrée,Étapes,Résultat attendu,Résultat obtenu,Statut,Commentaire
+T-LOGIN-01,UC-01 Se connecter,US-01,Compte actif admin,email=admin@admin.fr; mdp=valide,1) /login 2) saisir identifiants 3) valider,Accès autorisé + redirection accueil,Accès autorisé + redirection accueil,Terminer,
+T-LOGIN-02,UC-01 Se connecter,US-01,Compte actif,email=admin@admin.fr; mdp=faux,1) /login 2) saisir identifiants 3) valider,Message d’erreur + pas de session,Message d’erreur + pas de session,Terminer,
+T-ETU-01,UC-02 Gérer étudiants,US-02,Rôle Admin connecté,"nom, prénom, filière, promotion",1) Cliquer “Ajouter étudiant” 2) remplir le formulaire 3) valider,Étudiant créé et visible dans la liste,Étudiant créé et visible dans la liste,Terminer,
+T-ENT-01,UC-03 Gérer entreprises,US-03,Admin connecté,"nom, ville, email valide",1) “Ajouter entreprise” 2) saisir données 3) valider,Entreprise créée; email stocké,Entreprise créée; email stocké,Terminer,
+T-STAGE-01,UC-04 Gérer stages,US-04,Étudiant + entreprise existants,dates cohérentes,1) Nouveau stage 2) saisir dates + liens 3) valider,Stage créé; visible dans suivi,Stage créé; visible dans suivi,Terminer,
+T-AFF-01,UC-06 Affecter profs,US-05,Stage + 2 profs existants,profSuivi=Dupont; profVisite=Martin,1) Ouvrir stage 2) définir profs 3) enregistrer,Affectations visibles; historique créé,Affectations visibles; historique créé,Terminer,
+T-STATUT-01,UC-07 Statuts,US-06,Enseignant affecté au stage,"statutAttestation=""Reçue""",1) Ouvrir fiche stage 2) onglet Statuts 3) modifier 4) enregistrer,Statut mis à jour; entrée d’historique ajoutée,,En cours,
+T-SUIVI-01,UC-08 Suivi & Visites,US-07,Admin connecté,filtres par promotion,1) Aller sur “Suivi & visites” 2) appliquer filtre,Liste filtrée correctement,Liste filtrée correctement,Terminer,
+T-SUIVI-02,UC-08 Suivi & Visites,US-07,Enseignant connecté,,1) Aller sur “Suivi & visites”,Seuls ses stages sont visibles,Seuls ses stages sont visibles,Terminer,
+T-EXP-01,UC-09 Export,US-08,Admin connecté + filtres actifs,,1) Appliquer un filtre 2) Cliquer Export CSV,Fichier téléchargé; lignes = résultat filtré,,En cours,
+T-DASH-01,UC-10 Dashboard,US-09,Compte admin + données,,1) Accéder à /,KPIs globaux + graphiques + toutes les visites,KPIs globaux + graphiques + toutes les visites,Terminer,
+T-DASH-02,UC-10 Dashboard,US-09,Compte enseignant + données,,1) Accéder à /,KPIs + liste “Prochaines visites” limitée à ses visites,KPIs + liste “Prochaines visites” limitée à ses visites,Terminer,

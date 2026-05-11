@@ -1,0 +1,6 @@
+mail : admin@admin.fr mdp: admin
+mail : j.dupont@ecole.fr mdp : prof
+mail : s.martin@ecole.fr mdp : prof
+mail : m.lefebvre@ecole.fr mdp : prof
+
+route : http://127.0.0.1:8000/login 
